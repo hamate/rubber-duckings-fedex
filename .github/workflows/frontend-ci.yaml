@@ -25,9 +25,6 @@ jobs:
       - name: Install Dependencies
         run: yarn install
         working-directory: ./frontend
-      - name: Run Linter
-        run: yarn lint
-        working-directory: ./frontend
       - name: Build
         run: yarn build
         working-directory: ./frontend
