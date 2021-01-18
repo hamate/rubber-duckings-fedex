@@ -1,24 +1,38 @@
-import logo from './logo.svg';
+import React from 'react';
+import {
+  BrowserRouter as 
+  Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+import Landing from './pages/Landing';
 import './App.css';
 
 function App() {
+  const tokenExists = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return true;
+    }
+    return false;
+  };
+
   return (
+    <Router>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Switch>
+        <Route exact path="/" component={Landing} />
+        <Route exact path="/register" />
+        <Route exact path="/login" />
+        <Route exact path="/admin" />
+        <Route path="/challange" />
+        <Route exact path="/">
+            {tokenExists() ? <Redirect to="/challange" /> : <Redirect to="/" />}
+        </Route>
+      </Switch>
     </div>
+    </Router>
   );
 }
 
