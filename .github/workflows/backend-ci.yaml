@@ -26,5 +26,5 @@ jobs:
         run: yarn lint
         working-directory: ./backend
       - name: Run Tests
-        run: yarn test:ci
+        run: yarn test:ci --passWithNoTests
         working-directory: ./backend
