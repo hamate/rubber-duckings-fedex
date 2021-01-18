@@ -17,10 +17,17 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db, callback) {
   db.createTable('users', {
     id: { type: 'int', primaryKey: true, autoIncrement: true},  
-    username: 'string',
+    username: {
+      type: 'string',
+      unique: true,
+    },
     email: 'string',
     password: 'string',
     is_admin: {
+      type: 'boolean',
+      defaultValue: false,
+    },
+    is_validated: {
       type: 'boolean',
       defaultValue: false,
     }

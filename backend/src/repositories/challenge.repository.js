@@ -1,7 +1,7 @@
 import { db } from '../data/connection';
 
 export const challengeRepo = {
-  getChallenge: async () => {
+  async getChallenge() {
     try {
       const sqlQuery = 'SELECT * FROM challenge';
       const challengeQueryData = await db.query(sqlQuery);
