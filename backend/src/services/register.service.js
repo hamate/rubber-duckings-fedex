@@ -25,8 +25,8 @@ export const registerService = {
   async insertNewUser(username, password, email) {
     this.validateUsernameAndPassword(username, password, email);
     const hashedPassword = await this.hashUserPassword(password);
-    await usersRepo.insertUser(username, hashedPassword, email);
-    const token = loginService.getToken(username);
+    const userData = await usersRepo.insertUser(username, hashedPassword, email);
+    const token = loginService.getToken(userData.results.insertId);
     return token;
   },
 };
