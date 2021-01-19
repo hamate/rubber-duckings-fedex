@@ -1,4 +1,4 @@
-import { SessionActionTypes } from './session.types';
+import SessionActionTypes from './session.types';
 
 const INTITAL_STATE = {
   token: null
