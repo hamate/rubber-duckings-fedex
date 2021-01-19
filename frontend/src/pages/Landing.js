@@ -6,7 +6,7 @@ import '../styles/Landing.css';
 function Landing() {
   const dispatch = useDispatch();
   const challenge = useSelector((state) => state.challenge.challenge)
-  console.log(challenge);
+  
   useEffect(() => {
     dispatch(getChallenge());
   }, [dispatch]);
