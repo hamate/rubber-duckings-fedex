@@ -7,6 +7,7 @@ import {
   Redirect
 } from "react-router-dom";
 import Landing from './pages/Landing';
+import Login from './pages/Login';
 import './App.css';
 
 function App() {
@@ -24,8 +25,8 @@ function App() {
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route exact path="/register" />
-        <Route exact path="/login" />
-        <Route exact path="/admin" />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/admin" component={Login} />
         <Route path="/challange" />
         <Route exact path="/">
             {tokenExists() ? <Redirect to="/challange" /> : <Redirect to="/" />}
