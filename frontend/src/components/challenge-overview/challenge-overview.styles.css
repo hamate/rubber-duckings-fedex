@@ -1,0 +1,16 @@
+.challenge-overview {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: row;
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.challenge-days {
+  width: 150px;
+}
+
+.commitments-container {
+  width: 600px;
+  background-color: red;
+}
