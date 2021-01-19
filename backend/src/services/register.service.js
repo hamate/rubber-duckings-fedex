@@ -26,7 +26,11 @@ export const registerService = {
     this.validateUsernameAndPassword(username, password, email);
     const hashedPassword = await this.hashUserPassword(password);
     const userData = await usersRepo.insertUser(username, hashedPassword, email);
-    const token = loginService.getToken(userData.results.insertId);
-    return token;
+    console.log(userData);
+    const token = await loginService.getToken(userData.results.insertId);
+    return {
+      token,
+      userId: userData.results.insertId,
+    };
   },
 };

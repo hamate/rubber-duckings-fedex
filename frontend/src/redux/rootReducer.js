@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 
 import sessionReducer from './session/session.reducer';
 import challengeReducer from './challenge/challenge.reducer';
+import commitmentsReducer from './commitments/commitments.reducer';
 
 const persistConfig = {
   key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   session: sessionReducer,
   challenge: challengeReducer,
+  commitments: commitmentsReducer,
 });
 
 

@@ -28,7 +28,12 @@ export const loginService = {
       || !bcrypt.compareSync(password, userData.results[0].password)) {
       throw { message: 'Username or password is incorrect', status: 400 };
     }
-    const token = this.getToken(userData.results[0].id);
-    return token;
+    const token = await this.getToken(userData.results[0].id);
+    return {
+      token,
+      userId: userData.results[0].id,
+      isAdmin: userData.results[0].is_admin,
+      isValidated: userData.results[0].is_validated,
+    };
   },
 };
