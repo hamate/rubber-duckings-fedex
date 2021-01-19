@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from 'react';
 import {
   BrowserRouter as 
@@ -8,10 +7,7 @@ import {
   Redirect
 } from "react-router-dom";
 import Landing from './pages/Landing';
-=======
->>>>>>> 6d65591... overview component not finished
 import './App.css';
-import ChallengeOverview from './components/challenge-overview/challenge-overview.component';
 
 function App() {
   const tokenExists = () => {
@@ -25,7 +21,6 @@ function App() {
   return (
     <Router>
     <div className="App">
-<<<<<<< HEAD
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route exact path="/register" />
@@ -36,9 +31,6 @@ function App() {
             {tokenExists() ? <Redirect to="/challange" /> : <Redirect to="/" />}
         </Route>
       </Switch>
-=======
-        <ChallengeOverview numOfDays={15} startDate={new Date()} />
->>>>>>> 6d65591... overview component not finished
     </div>
     </Router>
   );
