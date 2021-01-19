@@ -1,39 +1,42 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import generalDataFetch from '../utilities/generalFetch';
+import generalDataFetch from '../../utilities/generalFetch';
+import { sessionLoading, sessionSuccess, sessionFailed } from '../../redux/session/session.actions';
+import { setUser } from '../../redux/user/user.actions';
 import './SessionForm.css';
 
-function SessionForm({ formType, loginError }) {
+function SessionForm({ formType, lo}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const loginError = useSelector((state) => ( state.session.sessionError ));
   const history = useHistory();
   const dispatch = useDispatch();
 
   const onUsernameChange = (event) => {
     if (loginError) {
-      dispatch(setLoginError(''));
+      dispatch(sessionFailed(''));
     }
     setUsername(event.target.value);
   };
 
   const onPasswordChange = (event) => {
     if (loginError) {
-      dispatch(setLoginError(''));
+      dispatch(sessionFailed(''));
     }
     setPassword(event.target.value);
   };
 
   const onEmailChange = (event) => {
     if (loginError) {
-      dispatch(setLoginError(''));
+      dispatch(sessionFailed(''));
     }
     setEmail(event.target.value);
   };
 
   const loginUser = async () => {
-    dispatch(loginStartedAction());
+    dispatch(sessionLoading());
 
     const endpoint = '/login';
     const method = 'POST';
@@ -44,18 +47,27 @@ function SessionForm({ formType, loginError }) {
 
     try {
       const loginResponse = await generalDataFetch(endpoint, method, loginData);
-      window.localStorage.token = loginResponse.token;
+      console.log(loginResponse);
+
+      if (loginResponse.status !== 200) {
+        return dispatch(sessionFailed(loginResponse.jsonData.message)) 
+      } 
+
+      const { token, userId, isAdmin, isValidated } = loginResponse.jsonData;
+      console.log(token);
+      window.localStorage.token = token;
       setPassword('');
       setUsername('');
       history.push('/challenge');
-      return dispatch(loginSuccessAction(loginResponse.token));
+
+      return (dispatch(sessionSuccess(token)), dispatch(setUser(userId, isAdmin, isValidated)));
     } catch (error) {
-      return dispatch(setLoginError(error.message));
+      return dispatch(sessionFailed(error.message));
     }
   };
 
   const registerUser = async () => {
-    dispatch(loginStartedAction());
+    dispatch(sessionLoading());
 
     const endpoint = '/register';
     const method = 'POST';
@@ -71,12 +83,16 @@ function SessionForm({ formType, loginError }) {
         method,
         registData,
       );
+      console.log(registerResponse.status);
+      if (registerResponse.status !== 200) {
+        return dispatch(sessionFailed(registerResponse.jsonData.message)) 
+      } 
+
       history.push({
-        pathname: '/login',
-        kingdomId: registerResponse.kingdomId,
+        pathname: '/login'
       });
     } catch (error) {
-      dispatch(setLoginError(error.message));
+      return dispatch(sessionFailed(error.message));
     }
     return null;
   };
@@ -85,14 +101,14 @@ function SessionForm({ formType, loginError }) {
     e.preventDefault();
     if (formType === 'login') {
       if (!username || !password) {
-        dispatch(setLoginError('All the input fields are required'));
+        dispatch(sessionFailed('All the input fields are required'));
         return null;
       }
       loginUser();
     }
     if (formType === 'register') {
       if (!username || !password) {
-        dispatch(setLoginError('Username and password are required'));
+        dispatch(sessionFailed('All fields are required'));
         return null;
       }
       registerUser();
@@ -100,17 +116,9 @@ function SessionForm({ formType, loginError }) {
     return null;
   };
 
-  const kingdomInputStyle = {
-    borderBottom: '2px solid rgb(14,155,141)',
-  };
-
-  const errorStyle = {
-    borderBottom: '2px solid rgb(221,67,48)',
-  };
-
   return (
     <div>
-      <form onSubmit={handleSubmit} className="user-form">
+      <form onSubmit={handleSubmit} className="session-form">
         <input
           type="text"
           id="username-input"
@@ -118,55 +126,36 @@ function SessionForm({ formType, loginError }) {
           placeholder="Username"
           onChange={onUsernameChange}
         />
-        <input
+
+        {formType === 'register' ? (
+          <input
           type="email"
           id="email-input"
           value={email}
           placeholder="Email"
           onChange={onEmailChange}
         />
+        ) : null}
+
         <input
           type="password"
           id="password-input"
           value={password}
           placeholder="Password"
           onChange={onPasswordChange}
-          style={loginError ? errorStyle : null}
         />
-        {formType === 'register' && (
+        {/* {formType === 'register' && (
           <PasswordStrengthMeter password={password} />
-        )}
-        {loginError && (
-          <div className="error-message">
-            <p>{loginError}</p>
-            <i className="fas fa-exclamation-triangle" />
-          </div>
-        )}
-        {formType === 'register' ? (
-          <input
-            type="text"
-            id="kingdom-input"
-            value={kingdomName}
-            placeholder="Kingdom name"
-            onChange={onKingdomNameChange}
-            style={kingdomInputStyle}
-          />
-        ) : null}
+        )} */}
+
+        <p className="error-message">{loginError && loginError}</p>
+        
         <button type="submit">
-          {formType === 'register' ? 'SIGN UP' : 'LOG IN'}
+          {formType === 'register' ? 'ACCEPTED!' : 'LOG IN'}
         </button>
       </form>
     </div>
   );
 }
 
-Form.propTypes = {
-  formType: PropTypes.string.isRequired,
-  loginError: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = ({ error }) => ({
-  loginError: error.loginError,
-});
-
-export default connect(mapStateToProps)(SessionForm);
+export default SessionForm;

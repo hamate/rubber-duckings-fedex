@@ -12,6 +12,7 @@ export const usersRepo = {
       throw errorObj;
     }
   },
+
   async getUser(username) {
     const sqlQuery = 'SELECT * FROM users WHERE username = ?';
     try {

@@ -5,17 +5,19 @@ import storage from 'redux-persist/lib/storage';
 import sessionReducer from './session/session.reducer';
 import challengeReducer from './challenge/challenge.reducer';
 import commitmentsReducer from './commitments/commitments.reducer';
+import userReducer from './user/user.reducer';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['session']
+  whitelist: ['session', 'user', 'challenge']
 };
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   challenge: challengeReducer,
   commitments: commitmentsReducer,
+  user: userReducer,
 });
 
 

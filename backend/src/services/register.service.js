@@ -12,7 +12,7 @@ export const registerService = {
     }
     if (password.length < 8) {
       throw {
-        status: 401,
+        status: 400,
         message: 'Password must be at least 8 characters',
       };
     }

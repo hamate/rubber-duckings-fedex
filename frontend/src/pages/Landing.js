@@ -23,7 +23,7 @@ function Landing() {
 
       <div className="landing-main-text">
 
-        <h1>ARE YOU READY FOR A <span>CHALLENGE?!</span></h1>
+        <h1>ARE YOU READY FOR A <br /><span>CHALLENGE?!</span></h1>
 
         {
         challengeStartTimestamp > currentTimestamp ?
