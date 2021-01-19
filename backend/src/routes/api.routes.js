@@ -4,6 +4,7 @@ import {
   challengeController,
   registerController,
   loginController,
+  commitmentsController,
 } from '../controllers/index';
 
 const cors = require('cors');
@@ -17,5 +18,6 @@ router.get('/hello', helloController.get);
 router.get('/challenge', challengeController.get);
 router.post('/register', registerController.post);
 router.post('/login', loginController.post);
+router.get('/commitments', commitmentsController.getAll);
 
 export default router;

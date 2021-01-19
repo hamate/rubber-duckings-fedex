@@ -1,5 +1,5 @@
 const SessionActionTypes = {
-  SET_TOKEN: 'SET_TOKEN',
+  SET_SESSION: 'SET_SESSION',
 };
 
 export default SessionActionTypes;
