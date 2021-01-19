@@ -14,8 +14,8 @@ export const loginService = {
     return false;
   },
 
-  async getToken(username) {
-    const token = jwt.sign({ username }, config.secret || 'somesecret');
+  async getToken(id) {
+    const token = jwt.sign({ id }, config.secret || 'somesecret');
     return token;
   },
   async loginUser(username, password) {
@@ -28,7 +28,7 @@ export const loginService = {
       || !bcrypt.compareSync(password, userData.results[0].password)) {
       throw { message: 'Username or password is incorrect', status: 400 };
     }
-    const token = this.getToken(userData.results[0].username);
+    const token = this.getToken(userData.results[0].id);
     return token;
   },
 };
