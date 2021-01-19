@@ -32,6 +32,8 @@ export const loginService = {
     return {
       token,
       userId: userData.results[0].id,
+      isAdmin: userData.results[0].is_admin,
+      isValidated: userData.results[0].is_validated,
     };
   },
 };

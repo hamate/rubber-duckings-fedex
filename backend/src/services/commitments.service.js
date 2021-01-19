@@ -7,6 +7,7 @@ export const commitmentsService = {
       id: commitment.id,
       name: commitment.name,
       userId: commitment.user_id,
+      challengeId: commitment.challenge_id,
       startDate: commitment.start_date,
       endDate: commitment.end_date,
       isDone: Boolean(commitment.is_done),
@@ -20,13 +21,14 @@ export const commitmentsService = {
       id: newCommitment.id,
       name: newCommitment.name,
       userId: newCommitment.user_id,
+      challengeId: newCommitment.challenge_id,
       startDate: newCommitment.start_date,
       endDate: newCommitment.end_date,
       isDone: Boolean(newCommitment.is_done),
     };
   },
-  async removeCommitment(id) {
-    await commitmentsRepo.removeCommitment(id);
+  async removeCommitment(id, userId) {
+    await commitmentsRepo.removeCommitment(id, userId);
     return {
       message: 'Commitment removed',
     };
@@ -35,6 +37,19 @@ export const commitmentsService = {
     await commitmentsRepo.removeCommitmentGroup(commitmentName, userId);
     return {
       message: 'Commitments removed',
+    };
+  },
+  async updateCommitment(commitment) {
+    await commitmentsRepo.updateCommitment(commitment);
+    const updatedCommitment = await commitmentsRepo.getCommitment(commitment.id);
+    return {
+      id: updatedCommitment.id,
+      name: updatedCommitment.name,
+      userId: updatedCommitment.user_id,
+      challengeId: updatedCommitment.challenge_id,
+      startDate: updatedCommitment.start_date,
+      endDate: updatedCommitment.end_date,
+      isDone: Boolean(updatedCommitment.is_done),
     };
   },
 };
