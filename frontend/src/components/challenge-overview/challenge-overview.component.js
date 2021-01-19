@@ -1,13 +1,24 @@
 import React from 'react';
-import { addDays, getMonthAndDayString, getNumOfDays, createDateArray } from '../../utils/date.utils';
+import { useSelector } from 'react-redux';
+import { getMonthAndDayString,  createDateArray } from '../../utilities/date.utils';
+import CommitmentGroup from '../commitment-group/commitment-group.component';
 import './challenge-overview.styles.css';
 
 export default function ChallengeOverview({ numOfDays, startDate }) {
-  console.log(startDate);
+  console.log(numOfDays);
+  const commitmentGroups = useSelector((state) => {
+    const { commitments } = state.commitments;
+    return commitments.reduce((acc, commitment) => {
+      if (!acc.includes(commitment.name)) {
+        acc.push(commitment.name);
+      }
+      return acc
+    }, []);
+
+  })
   const containerStyle = {
-    display: 'grid',
-    gridTemplateRows: `repeat(${numOfDays}, 30px)`,
-    gridGap: '5px'
+    display: 'flex',
+    flexDirection: 'column',
   }
 
   const dateArray = createDateArray(startDate, numOfDays);
@@ -16,17 +27,17 @@ export default function ChallengeOverview({ numOfDays, startDate }) {
     <div className="challenge-overview">
     <button>Add commitment</button>
       <div style={containerStyle} className="challenge-days">
+        <h1>Date</h1>
         {
           dateArray.map((date, index) => {
             return (
               <div 
                 key={index} className="" 
                 style={ { 
-                  color: 'white', 
-                  gridRow: index, 
-                  lineHeight: '30px', 
+                  color: 'black',  
                   margin: '0px',
-                  backgroundColor: 'black',
+                  maxHeight: '30px',
+                  minHeight: '30px',
                 }}>
                   { getMonthAndDayString(date) }
               </div>)
@@ -35,6 +46,9 @@ export default function ChallengeOverview({ numOfDays, startDate }) {
       </div>
       <div className="commitments-container">
 
+      {
+        commitmentGroups.map((group) => <CommitmentGroup name={group} startDate={ startDate } numOfDays={ numOfDays } />)
+      }
       </div>
     </div>
   )

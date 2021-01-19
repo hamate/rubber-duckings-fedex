@@ -1,7 +1,7 @@
 import CommitmentActionTypes from './commitments.types';
 
 const INITIAL_STATE = {
-  commitments: [],
+  commitments: [{name: 'test and test'},{name: 'test2'},{name: 'test3'},{name: 'test4'}],
   error: '',
   isLoading: false,
 };
