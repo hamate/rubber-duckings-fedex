@@ -1,6 +1,15 @@
 import SessionActionTypes from './session.types';
 
-export const setCurrentUser = token => ({
-  type: SessionActionTypes.SET_SESSION,
+export const sessionLoading = () => ({
+  type: SessionActionTypes.SESSION_LOADING,
+});
+
+export const sessionSuccess = (token) => ({
+  type: SessionActionTypes.SESSION_SUCCESS,
   payload: token,
+});
+
+export const sessionFailed = (message) => ({
+  type: SessionActionTypes.SESSION_FAILED,
+  message,
 });

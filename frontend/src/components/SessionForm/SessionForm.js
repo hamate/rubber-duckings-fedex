@@ -1,0 +1,172 @@
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import generalDataFetch from '../../utilities/generalFetch';
+import { sessionLoading, sessionSuccess, sessionFailed } from '../../redux/session/session.actions';
+import { setUser } from '../../redux/user/user.actions';
+import './SessionForm.css';
+
+function SessionForm({ formType, lo}) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const loginError = useSelector((state) => ( state.session.sessionError ));
+  const challenge = useSelector((state) => ( state.challenge.challenge ));
+  const history = useHistory();
+  const currentPath = history.location.pathname;
+  const dispatch = useDispatch();
+
+  const onUsernameChange = (event) => {
+    if (loginError) {
+      dispatch(sessionFailed(''));
+    }
+    setUsername(event.target.value);
+  };
+
+  const onPasswordChange = (event) => {
+    if (loginError) {
+      dispatch(sessionFailed(''));
+    }
+    setPassword(event.target.value);
+  };
+
+  const onEmailChange = (event) => {
+    if (loginError) {
+      dispatch(sessionFailed(''));
+    }
+    setEmail(event.target.value);
+  };
+
+  function determinePath(isAdmin) {
+    let challengeEndTimestamp = new Date(challenge.endDate).getTime();
+    if (challengeEndTimestamp < Date.now()) {
+      if (currentPath === '/admin' && isAdmin === 1) {
+        return '/admin/challenge';
+      }
+      return '/';
+    }
+    return '/challenge';
+  };
+
+  const loginUser = async () => {
+    dispatch(sessionLoading());
+
+    const endpoint = '/login';
+    const method = 'POST';
+    const loginData = {
+      username,
+      password,
+    };
+
+    try {
+      const loginResponse = await generalDataFetch(endpoint, method, loginData);
+      console.log(loginResponse);
+
+      if (loginResponse.status !== 200) {
+        return dispatch(sessionFailed(loginResponse.jsonData.message)) 
+      } 
+
+      const { token, userId, isAdmin, isValidated } = loginResponse.jsonData;
+      window.localStorage.token = token;
+      setPassword('');
+      setUsername('');
+      
+      history.push(determinePath(isAdmin));
+
+      return (dispatch(sessionSuccess(token)), dispatch(setUser(userId, isAdmin, isValidated)));
+    } catch (error) {
+      return dispatch(sessionFailed(error.message));
+    }
+  };
+
+  const registerUser = async () => {
+    dispatch(sessionLoading());
+
+    const endpoint = '/register';
+    const method = 'POST';
+    const registData = {
+      username,
+      password,
+      email,
+    };
+
+    try {
+      const registerResponse = await generalDataFetch(
+        endpoint,
+        method,
+        registData,
+      );
+      console.log(registerResponse.status);
+      if (registerResponse.status !== 200) {
+        return dispatch(sessionFailed(registerResponse.jsonData.message)) 
+      } 
+
+      history.push('/login');
+    } catch (error) {
+      return dispatch(sessionFailed(error.message));
+    }
+    return null;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formType === 'login') {
+      if (!username || !password) {
+        dispatch(sessionFailed('All the input fields are required'));
+        return null;
+      }
+      loginUser();
+    }
+    if (formType === 'register') {
+      if (!username || !password) {
+        dispatch(sessionFailed('All fields are required'));
+        return null;
+      }
+      registerUser();
+    }
+    return null;
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit} className="session-form">
+        <input
+          type="text"
+          id="username-input"
+          value={username}
+          placeholder="Username"
+          onChange={onUsernameChange}
+        />
+
+        {formType === 'register' ? (
+          <input
+          type="email"
+          id="email-input"
+          value={email}
+          placeholder="Email"
+          onChange={onEmailChange}
+        />
+        ) : null}
+
+        <input
+          type="password"
+          id="password-input"
+          value={password}
+          placeholder="Password"
+          onChange={onPasswordChange}
+        />
+        {/* {formType === 'register' && (
+          <PasswordStrengthMeter password={password} />
+        )} */}
+
+        <p className="error-message">{loginError && loginError}</p>
+        
+        <button type="submit">
+          {formType === 'register' ? 'ACCEPTED!' : 'LOG IN'}
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default SessionForm;
