@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import sessionReducer from './session/session.reducer';
+import challengeReducer from './challenge/challenge.reducer';
 
 const persistConfig = {
   key: 'root',
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  challenge: challengeReducer,
 });
 
 

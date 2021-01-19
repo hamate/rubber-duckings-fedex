@@ -3,7 +3,7 @@ import { db } from '../data/connection';
 export const challengeRepo = {
   async getChallenge() {
     try {
-      const sqlQuery = 'SELECT * FROM challenge';
+      const sqlQuery = 'SELECT * FROM challenge ORDER BY id DESC LIMIT 1';
       const challengeQueryData = await db.query(sqlQuery);
       return challengeQueryData.results[0];
     } catch (err) {
