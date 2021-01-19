@@ -1,4 +1,7 @@
-const generalDataFetch = async (endpoint, method, data = undefined, token = undefined) => {
+import { store } from '../redux/store';
+const generalDataFetch = async (endpoint, method, data = undefined) => {
+  const state = store.getState();
+  const { token } = state.session;
   const options = {
     method,
     headers: {
