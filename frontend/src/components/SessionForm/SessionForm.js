@@ -11,7 +11,9 @@ function SessionForm({ formType, lo}) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const loginError = useSelector((state) => ( state.session.sessionError ));
+  const challenge = useSelector((state) => ( state.challenge.challenge ));
   const history = useHistory();
+  const currentPath = history.location.pathname;
   const dispatch = useDispatch();
 
   const onUsernameChange = (event) => {
@@ -35,6 +37,17 @@ function SessionForm({ formType, lo}) {
     setEmail(event.target.value);
   };
 
+  function determinePath(isAdmin) {
+    let challengeEndTimestamp = new Date(challenge.endDate).getTime();
+    if (challengeEndTimestamp < Date.now()) {
+      if (currentPath === '/admin' && isAdmin === 1) {
+        return '/admin/challenge';
+      }
+      return '/';
+    }
+    return '/challenge';
+  };
+
   const loginUser = async () => {
     dispatch(sessionLoading());
 
@@ -54,11 +67,11 @@ function SessionForm({ formType, lo}) {
       } 
 
       const { token, userId, isAdmin, isValidated } = loginResponse.jsonData;
-      console.log(token);
       window.localStorage.token = token;
       setPassword('');
       setUsername('');
-      history.push('/challenge');
+      
+      history.push(determinePath(isAdmin));
 
       return (dispatch(sessionSuccess(token)), dispatch(setUser(userId, isAdmin, isValidated)));
     } catch (error) {
@@ -88,9 +101,7 @@ function SessionForm({ formType, lo}) {
         return dispatch(sessionFailed(registerResponse.jsonData.message)) 
       } 
 
-      history.push({
-        pathname: '/login'
-      });
+      history.push('/login');
     } catch (error) {
       return dispatch(sessionFailed(error.message));
     }
