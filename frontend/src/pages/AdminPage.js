@@ -15,10 +15,10 @@ import AlertTemplate from 'react-alert-template-basic';
 function AdminPage() {
   const dispatch = useDispatch();
   const challenge = useSelector((state) => state.challenge.challenge)
-  
+
   useEffect(() => {
     dispatch(getChallenge());
-  }, []);
+  }, [dispatch]);
 
   const options = {
     // you can also just use 'bottom center'
@@ -29,11 +29,11 @@ function AdminPage() {
     type: types.ERROR,
     transition: transitions.SCALE,
   };
-  console.log(Object.entries(challenge));
+  console.log(challenge);
   return (
     <div className='admin-main-container'>
       <AlertProvider template={AlertTemplate} {...options}>
-        {Object.entries(challenge).length > 0 ? <EditChallenge /> : <CreateChallenge />}
+        {Object.entries(challenge).length > 1 ? <EditChallenge /> : <CreateChallenge />}
       </AlertProvider>
     </div>
   );

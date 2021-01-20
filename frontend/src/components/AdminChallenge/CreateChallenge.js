@@ -23,7 +23,7 @@ function CreateChallenge() {
 
   const submitChallenge = async () => {
     const method = 'POST';
-    const endpoint = '/challenge';
+    const endpoint = '/admin/challenge';
     const data = {
       challengeDetails: {
         challengeName,
