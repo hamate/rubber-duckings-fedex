@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { useAlert } from 'react-alert';
 import generalDataFetch from '../../utilities/generalFetch';
@@ -9,31 +9,32 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function EditChallenge() {
-  const challenge = useSelector((state) => state.challenge.challenge)
+  const challenge = useSelector((state) => state.challenge.challenge);
   const dispatch = useDispatch();
 
   const [startDate, setStartDate] = useState(new Date(challenge.startDate));
   const [endDate, setEndDate] = useState(new Date(challenge.endDate));
   const [challengeName, setChallengeName] = useState(null);
   const [challengeDescription, setChallengeDescription] = useState(null);
-  const DatePickerOnChange = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const startDatePickerOnChange = (date) => {
+    setStartDate(date);
+  };
+  const endDatePickerOnChange = (date) => {
+    setEndDate(date);
   };
 
-  
   useEffect(() => {
     dispatch(getChallenge());
   }, [dispatch]);
-
 
   const alert = useAlert();
   const history = useHistory();
   moment().format();
 
   const submitChallenge = async () => {
-    const method = 'POST';
+    const method = 'PUT';
     const endpoint = '/admin/challenge';
     const data = {
       challengeDetails: {
@@ -44,13 +45,24 @@ function EditChallenge() {
       },
     };
     try {
+      if (startDate > endDate) {
+        alert.error(
+          <div style={{ color: 'white' }}>Please set valid dates!</div>
+        );
+        throw Error('Not valid dates');
+      }
+
       if (!challengeName || !challengeDescription || !startDate || !endDate) {
-        alert.error(<div style={{ color: 'white' }}>some data is missing, <br/> Please set all details!</div>);
+        alert.error(
+          <div style={{ color: 'white' }}>
+            some data is missing, <br /> Please set all details!
+          </div>
+        );
         throw Error('Missing data');
       }
-      
+
       await generalDataFetch(endpoint, method, data);
-      history.push('/admin');
+      history.push('/challenge');
     } catch (error) {
       console.log(error);
     }
@@ -58,57 +70,81 @@ function EditChallenge() {
 
   return (
     <div className='create-challenge-main-container'>
-        <h1 className='create-challenge-title'>
-          <span>Challenge</span> Creator Page
-        </h1>
-        <div className='create-challenge-container'>
-          <div className='challenge-form'>
-            <label htmlFor='form-input' className='form-label'>
-             Title of Your Current <span>Challenge</span>
-            </label>
-            <input
-              type='text'
-              className='form-input'
-              placeholder='My Life-Changing Challenge'
-              onChange={(event) => setChallengeName(event.target.value)}
-              value={challenge.title}
-            />
-            <label htmlFor='form-input' className='form-label'>
+      <h1 className='create-challenge-title'>
+        <span>Challenge</span> Creator Page
+      </h1>
+      <div className='create-challenge-container'>
+        <div className='challenge-form'>
+          <label htmlFor='form-input' className='form-label'>
+            Title of Your Current <span>Challenge</span>
+          </label>
+          <textarea
+            type='text'
+            className='edit-form-input title'
+            placeholder={challenge.title}
+            onChange={(event) => setChallengeName(event.target.value)}
+            disabled={!isUpdating}
+            defaultValue={challenge.title}
+          />
+          <label htmlFor='form-input' className='form-label'>
             Description of Your Current <span>Challenge</span>
-            </label>
-            <textarea
-              disabled='true'
-              type='text'
-              className='edit-form-input description'
-              placeholder='In this challenge I will do the following awesome things...'
-              onChange={(event) => setChallengeDescription(event.target.value)}
-              value={challenge.description}
-            />
-            <button className="enable-editing">Click to edit</button>
-          </div>
-          <div className='challenge-date'>
-            <label htmlFor='date-picker' className='form-label'>
-              Interval of Your Current <span>Challenge</span>
-            </label>
+          </label>
+          <textarea
+            disabled={!isUpdating}
+            type='text'
+            className='edit-form-input description'
+            onChange={(event) => setChallengeDescription(event.target.value)}
+            defaultValue={challenge.description}
+          />
+        </div>
+        <div className='challenge-date'>
+          <label htmlFor='date-picker' className='form-label'>
+            Interval of Your Current <span>Challenge</span>
+          </label>
+          <div className='date-pickers'>
             <DatePicker
+              className='start-date simple-date-picker'
               minDate={new Date()}
               selected={startDate}
-              onChange={DatePickerOnChange}
-              startDate={startDate}
-              endDate={endDate}
-              selectsRange
-              inline
+              onChange={startDatePickerOnChange}
+              disabled={!isUpdating}
+            />
+            <DatePicker
+              className='end-date simple-date-picker'
+              minDate={new Date()}
+              selected={endDate}
+              onChange={endDatePickerOnChange}
+              disabled={!isUpdating}
             />
           </div>
-          <div className='create-challenge-submit'>
-            <button className='submit-challenge' onClick={submitChallenge}>
+        </div>
+        <div className='create-challenge-submit'>
+          {!isUpdating ? (
+            <button
+              className='submit-challenge'
+              onClick={() => setIsUpdating(true)}
+            >
               Update Your Challenge
             </button>
-          </div>
+          ) : (
+            <div className='updating-buttons'>
+              <button
+                className='cancel-update'
+                onClick={() => {
+                  setIsUpdating(false);
+                }}
+              >
+                Cancel
+              </button>
+              <button className='submit-challenge' onClick={submitChallenge}>
+                Update Your Challenge
+              </button>
+            </div>
+          )}
         </div>
-      
+      </div>
     </div>
   );
 }
 
-export default EditChallenge
+export default EditChallenge;

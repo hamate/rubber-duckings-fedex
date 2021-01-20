@@ -47,7 +47,25 @@ span {
 .description {
   height: 100px;
   font-size: 1em;
-  font-family: -apple-system, BlinkMacSystemFont, 'Raleway', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Raleway', 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  margin-bottom: 40px;
+}
+
+.title {
+  height: 40px;
+  font-size: 1em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Raleway', 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  margin-bottom: 40px;
 }
 
 
@@ -86,7 +104,8 @@ span {
 .admin-main-container {
   background-color: #222629;
   width: 100%;
-  height: max-content;
+  height: fit-content;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -97,7 +116,7 @@ span {
 }
 
 .edit-form-input:disabled {
-  background-color: #ffffff;
+  background-color: #bbbbbb;
   font-size: 1em;
   margin-bottom: 40px;
   outline: none;
@@ -105,4 +124,65 @@ span {
   border: none;
   padding: 5px;
   color: black;
+}
+
+.edit-form-input::placeholder {
+  color: black;
+}
+
+.challenge-date {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-pickers {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.simple-date-picker {
+  height: 40px;
+  font-size: 1em;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.simple-date-picker:disabled {
+  background-color: #bbbbbb;
+}
+
+.simple-date-picker::placeholder {
+  color: black;
+}
+
+.form-input:disabled {
+  background-color: #bbbbbb;
+}
+.form-input::placeholder {
+  color: black;
+}
+
+.cancel-update {
+  border: none;
+  background: #ffffff;
+  color: #404040 !important;
+  font-weight: 100;
+  padding: 20px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  outline: none;
+  margin-right: 10px;
+}
+
+.cancel-update:hover {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: 3px;
+  background: #c23232;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(194, 50, 50, 0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(194, 50, 50, 0.57);
+  transition: all 0.3s ease 0s;
+  outline: none;
 }

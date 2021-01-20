@@ -21,4 +21,8 @@ export const challengeService = {
   async postChallenge(challengeDetails) {
     return await challengeRepo.postChallenge(challengeDetails);
   },
+
+  async putChallenge(challengeDetails) {
+    return await challengeRepo.putChallenge(challengeDetails);
+  },
 };

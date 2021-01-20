@@ -29,7 +29,7 @@ function AdminPage() {
     type: types.ERROR,
     transition: transitions.SCALE,
   };
-  console.log(challenge);
+  
   return (
     <div className='admin-main-container'>
       <AlertProvider template={AlertTemplate} {...options}>
