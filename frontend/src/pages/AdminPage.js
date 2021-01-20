@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CreateChallenge from './CreateChallenge';
-import EditChallenge from './EditChallenge';
-import './AdminPage.css';
+import CreateChallenge from '../components/AdminChallenge/CreateChallenge';
+import EditChallenge from '../components/AdminChallenge/EditChallenge';
+import '../styles/AdminPage.css';
 
 function AdminPage() {
   const [isChallenge, setIsChallenge] = useState(false);
