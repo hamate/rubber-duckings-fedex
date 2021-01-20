@@ -11,7 +11,6 @@ export default function ChallengeOverview() {
     const userCommitments = state.commitments.commitments.filter((commitment) => commitment.userId === userId);
     return userCommitments;
   });
-  const { title, description } = challenge;
   const startDate = new Date(challenge.startDate);
   const endDate = new Date(challenge.endDate);
   const numOfDays = getNumOfDays(startDate, endDate);

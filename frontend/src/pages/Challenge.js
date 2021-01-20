@@ -9,7 +9,7 @@ function Challenge() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCommitmentsAsync());
-  }, [])
+  }, [dispatch])
   return (
     <div className="challenge-container">
       <nav>
