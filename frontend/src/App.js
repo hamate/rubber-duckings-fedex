@@ -9,6 +9,7 @@ import {
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Challenge from './pages/Challenge';
 import './App.css';
 
 function App() {
@@ -27,11 +28,10 @@ function App() {
         <Route exact path="/" component={Landing} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/admin" component={Login} />
-        <Route exact path="/admin/challange" />
-        <Route path="/challange" />
+        <Route exact path="/challenge-setting" />
+        <Route path="/challenge" component={Challenge} />
         <Route exact path="/">
-            {tokenExists() ? <Redirect to="/challange" /> : <Redirect to="/" />}
+            {tokenExists() ? <Redirect to="/challenge" /> : <Redirect to="/" />}
         </Route>
       </Switch>
     </div>

@@ -40,8 +40,8 @@ function SessionForm({ formType, lo}) {
   function determinePath(isAdmin) {
     let challengeEndTimestamp = new Date(challenge.endDate).getTime();
     if (challengeEndTimestamp < Date.now()) {
-      if (currentPath === '/admin' && isAdmin === 1) {
-        return '/admin/challenge';
+      if (currentPath === '/login' && isAdmin === 1) {
+        return '/challenge-setting';
       }
       return '/';
     }
