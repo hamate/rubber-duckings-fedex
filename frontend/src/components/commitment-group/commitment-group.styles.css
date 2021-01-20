@@ -1,0 +1,19 @@
+.commitment-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.calendar-block {
+  background-color: antiquewhite;
+  color: black; 
+  max-height: 30px;
+  min-height: 30px; 
+  margin: 0px;
+  overflow-y: visible;
+  position: relative;
+}
+
+.commitment-item {
+  display: block;
+}

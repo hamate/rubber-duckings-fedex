@@ -22,3 +22,11 @@ export function createDateArray(startDate, numOfDays) {
   }
   return days;
 }
+export function getDateString(date) {
+  return date.toDateString();
+}
+
+export function formatDateToString(date) {
+  const month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+  return `${date.getFullYear()}-${month}-${date.getDate()}`;
+}

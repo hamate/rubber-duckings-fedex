@@ -49,9 +49,10 @@ export const commitmentsController = {
       endDate,
       isDone,
     } = req.body;
+    const userId = req.user.id;
     try {
       const updatedCommitment = await commitmentsService.updateCommitment({
-        name, startDate, endDate, id, isDone,
+        name, startDate, endDate, id, isDone, userId,
       });
       res.status(200).json(updatedCommitment);
     } catch (err) {

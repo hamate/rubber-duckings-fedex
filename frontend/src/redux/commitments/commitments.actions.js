@@ -6,6 +6,24 @@ export const getCommitments = (commitments) => ({
   payload: commitments
 });
 
+export const updateCommitment = (commitment) => ({
+  type: CommitmentActionTypes.UPDATE_COMMITMENT,
+  payload: commitment,
+});
+
+export const updateCommitmentAsync = (commitment) => {
+  return async (dispatch) => {
+    console.log(commitment);
+    const endpoint = '/commitments';
+    const method = 'PUT';
+    const results = await generalDataFetch(endpoint, method, commitment);
+    if (results.status !== 200) {
+      return dispatch(commitmentsError(results.jsonData.message))
+    }
+    return dispatch(updateCommitment(results.jsonData));
+  }
+}
+
 export const commitmentsLoading = () => ({ type: CommitmentActionTypes.COMMITMENTS_LOADING });
 
 export const commitmentsError = (errorMessage) => ({ type: CommitmentActionTypes.COMMITMENTS_ERROR, payload: errorMessage })
