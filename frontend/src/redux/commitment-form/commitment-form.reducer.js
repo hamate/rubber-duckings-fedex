@@ -1,4 +1,3 @@
-import CommitmentActionTypes from '../commitments/commitments.types';
 import CommitmentFormActionTypes from './commitment-form.types';
 
 const INITIAL_STATE = {
