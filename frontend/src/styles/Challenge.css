@@ -32,7 +32,6 @@ nav {
 .content-container {
   width: 100%;
   height: calc(100vh - 135px);
-  overflow-y: scroll;
 }
 
 .message-board {

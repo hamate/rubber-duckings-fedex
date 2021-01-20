@@ -4,7 +4,7 @@
   flex-direction: column;
 }
 
-h1 {
+.create-challenge-main-container h1 {
   font-size: 3em;
   font-weight: 300;
   color: white;
@@ -20,7 +20,7 @@ span {
   flex-direction: column;
   justify-content: space-between;
   margin: 20px;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .challenge-form {
@@ -54,6 +54,7 @@ span {
   border-radius: 5px;
   border: none;
   padding: 5px;
+  margin-bottom: 20px;
 }
 
 .title {
@@ -65,7 +66,7 @@ span {
   border-radius: 5px;
   border: none;
   padding: 5px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 
@@ -118,7 +119,7 @@ span {
 .edit-form-input:disabled {
   background-color: #bbbbbb;
   font-size: 1em;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   outline: none;
   border-radius: 5px;
   border: none;

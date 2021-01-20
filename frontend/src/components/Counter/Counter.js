@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 import './Counter.css';
 
 function Counter() {
   const challenge = useSelector((state) => state.challenge.challenge);
-  // const [ challengeStatus, setChallengeStatus ] = useState();
   const [ until, setUntil ] = useState();
 
   const challengeStartTimestamp = new Date(challenge.startDate).getTime();
@@ -12,10 +12,10 @@ function Counter() {
   const currentTimestamp = Date.now();
 
   const convertTime = (timestamp) => {
-    let days = Math.floor(timestamp / (60 * 60 * 24));
-    let hours = Math.floor(timestamp / 60 / 60) - (days * 24);
-    let minutes = Math.floor(timestamp / 60) - (hours * 60)  - (days * 24);
-    let seconds = timestamp % 60;
+    let seconds = moment.duration(timestamp).seconds();
+    let minutes = moment.duration(timestamp).minutes();
+    let hours = moment.duration(timestamp).hours() + 1;
+    let days = moment.duration(timestamp).days();
 
     let formatedTime = 
       days.toString() + ' day(s) ' + 
@@ -29,12 +29,12 @@ function Counter() {
   useEffect(() => {
       const getUntilTime = setInterval(() => {
         if (currentTimestamp < challengeStartTimestamp) {
-          let untilTimestamp = Math.floor((challengeStartTimestamp - currentTimestamp)/1000);
+          let untilTimestamp = challengeStartTimestamp - currentTimestamp;
           let time = convertTime(untilTimestamp)
           setUntil(time);
         }
         if (currentTimestamp < challengeEndTimestamp) {
-          let untilTimestamp = Math.floor((challengeEndTimestamp - currentTimestamp)/1000);
+          let untilTimestamp = challengeEndTimestamp - currentTimestamp;
           let time = convertTime(untilTimestamp)
           setUntil(time);
         }
