@@ -67,10 +67,9 @@ function SessionForm({ formType }) {
       const { token, userId, isAdmin, isValidated } = loginResponse.jsonData;
       setPassword('');
       setUsername('');
-      
+      dispatch(sessionSuccess(token));
+      dispatch(setUser(userId, isAdmin, isValidated))
       history.push(determinePath(isAdmin));
-
-      return (dispatch(sessionSuccess(token)), dispatch(setUser(userId, isAdmin, isValidated)));
     } catch (error) {
       return dispatch(sessionFailed(error.message));
     }

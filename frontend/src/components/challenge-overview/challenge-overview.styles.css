@@ -1,4 +1,6 @@
 .challenge-overview {
+  height: 100%;
+  overflow-y: scroll;
   display: flex;
   flex-direction: row;
 }

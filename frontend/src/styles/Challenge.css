@@ -28,16 +28,10 @@ nav {
   width: 100%;
 }
 
-.counter {
-  height: 75px;
-  width: 100%;
-  margin-bottom: 20px;
-}
 
 .content-container {
   width: 100%;
   height: calc(100vh - 135px);
-  overflow-y: scroll;
 }
 
 .message-board {
