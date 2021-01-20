@@ -7,8 +7,8 @@ import './add-commitment.styles.css';
 
 export default function AddCommitment(props) {
   const dispatch = useDispatch();
-  const { startDate, endDate, commitments } = props;
-  const [commitmentName, setCommitmentName] = useState('');
+  const { startDate, endDate, commitments, targetGroup } = props;
+  const [commitmentName, setCommitmentName] = useState(targetGroup);
   const [commitmentStartDate, setCommitmentStartDate] = useState('')
   const [commitmentEndDate, setCommitmentEndDate] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -71,8 +71,13 @@ export default function AddCommitment(props) {
     setErrorMessage('');
   }
 
+  const exitForm = () => {
+    dispatch(toggleCreateCommitmentForm())
+  };
+
   return (
     <div className="create-commitment-container">
+      <i class="fas fa-times exit-form" onClick={exitForm}></i>
       <h2>Add new commitment</h2>
       <form className="create-commitment-form" onSubmit={handleSubmit}>
         <label>Commitment name</label>

@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getNumOfDays, formatDateToString } from '../../utilities/date.utils';
-import { updateCommitmentAsync } from '../../redux/commitments/commitments.actions';
+import { updateCommitmentAsync, removeCommitmentAsync } from '../../redux/commitments/commitments.actions';
 import './commitment.styles.css';
 
 export default function Commitment({ commitment }) {
   const { startDate, endDate, name, id, isDone } = commitment;
   const dispatch = useDispatch();
+  const [isRemoveHidden, setIsRemoveHidden] = useState(true);
   const startDateString = formatDateToString(new Date(startDate));
   const endDateString = formatDateToString(new Date(endDate));
   const numOfDays = getNumOfDays(new Date(startDate), new Date(endDate));
@@ -48,6 +49,14 @@ export default function Commitment({ commitment }) {
     }, 0)
   }
 
+  const showRemove = (e) => {
+    setIsRemoveHidden(false);
+  }
+
+  const hideRemove = (e) => {
+    setIsRemoveHidden(true);
+  }
+
   const style = {
     height: `${30*numOfDays}px`,
     backgroundColor: isDone ? 'green' : 'red',
@@ -59,6 +68,8 @@ export default function Commitment({ commitment }) {
   return (
     <div>
       <div 
+        onMouseEnter={showRemove} 
+        onMouseLeave={hideRemove}
         className='commitment-item'
         id={`${id}`} 
         style={style} 
@@ -69,8 +80,11 @@ export default function Commitment({ commitment }) {
         name={`${name}`}
         numofdays={`${numOfDays}`}
         >
+        {
+          !isRemoveHidden ? <i onClick={() => dispatch(removeCommitmentAsync(id))} className="fas fa-times remove-commitment"></i> : null
+        }
         {name}
-        <i onClick={toggleIsDone} className={isDone ? "fas fa-check-square" : "far fa-square"}></i>
+        <i onClick={toggleIsDone} className={`${isDone ? "fas fa-check-square" : "far fa-square"} checkbox`}></i>
       </div>
     </div>
   )

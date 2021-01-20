@@ -67,8 +67,13 @@ function SessionForm({ formType }) {
       const { token, userId, isAdmin, isValidated } = loginResponse.jsonData;
       setPassword('');
       setUsername('');
+<<<<<<< HEAD
       dispatch(sessionSuccess(token));
       dispatch(setUser(userId, isAdmin, isValidated))
+=======
+      dispatch(sessionSuccess(token)) 
+      dispatch(setUser(userId, isAdmin, isValidated));
+>>>>>>> 848b4c5... added remove feature for commitments, add aditional comit to commit group, chek read state of comitment
       history.push(determinePath(isAdmin));
     } catch (error) {
       return dispatch(sessionFailed(error.message));

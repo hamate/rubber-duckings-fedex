@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMonthAndDayString,  createDateArray, getNumOfDays } from '../../utilities/date.utils';
 import CommitmentGroup from '../commitment-group/commitment-group.component';
@@ -9,6 +9,7 @@ import './challenge-overview.styles.css';
 
 export default function ChallengeOverview() {
   const dispatch = useDispatch();
+  const [targetGroup, setTargetGroup] = useState('');
   const createFormOpenStatus = useSelector(state => state.commitmentForm.createCommitmentForm);
   console.log(createFormOpenStatus);
   const { challenge } = useSelector(state => state.challenge);
@@ -34,14 +35,26 @@ export default function ChallengeOverview() {
 
   const dateArray = createDateArray(startDate, numOfDays);
 
+  const handleClick = (e) => {
+    setTargetGroup(e.target.getAttribute('name'));
+    dispatch(toggleCreateCommitmentForm())
+  }
+
+
+
   return (
     <div className="challenge-overview">
-      <button className="toggle-create-form-button" type="button" onClick={() => {dispatch(toggleCreateCommitmentForm())}}>Create new commitment</button>
       {
-        createFormOpenStatus ? (<AddCommitment startDate={startDate} endDate={endDate} commitments={userCommitments} />) : null
+        createFormOpenStatus ? (<AddCommitment targetGroup={targetGroup} startDate={startDate} endDate={endDate} commitments={userCommitments} />) : null
       }
       <div style={containerStyle} className="challenge-days">
-        <h4 style={{ color: 'black'}}>Date</h4>
+        <div className="table-header">
+          <button className="toggle-create-form-button" type="button" onClick={() => {
+            setTargetGroup('');
+            dispatch(toggleCreateCommitmentForm())
+            }}>Create new commitment</button>
+          <h4 style={{ color: 'black'}}>Date</h4>
+        </div>
         {
           dateArray.map((date, index) => {
             return (
@@ -52,6 +65,7 @@ export default function ChallengeOverview() {
                   margin: '0px',
                   maxHeight: '30px',
                   minHeight: '30px',
+                  lineHeight: '30px',
                 }}>
                   { getMonthAndDayString(date) }
               </div>)
@@ -63,7 +77,7 @@ export default function ChallengeOverview() {
       {
         commitmentGroups.map((group) => {
           const commitments = userCommitments.filter((commitment) => commitment.name === group)
-          return <CommitmentGroup name={group} startDate={ startDate } endDate={endDate} numOfDays={ numOfDays } commitments={commitments} />
+          return <CommitmentGroup handleClick={handleClick} name={group} startDate={ startDate } endDate={endDate} numOfDays={ numOfDays } commitments={commitments} />
         })
       }
       </div>

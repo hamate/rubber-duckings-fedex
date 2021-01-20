@@ -22,3 +22,8 @@
 .create-commitment-button {
   color: black;
 }
+
+.exit-form {
+  margin-right: 10px;
+  margin-left: auto;
+}

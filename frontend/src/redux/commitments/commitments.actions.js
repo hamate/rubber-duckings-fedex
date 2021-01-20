@@ -24,6 +24,23 @@ export const updateCommitmentAsync = (commitment) => {
   }
 }
 
+export const removeCommitment = (commitmentId) => ({
+  type: CommitmentActionTypes.REMOVE_COMMITMENT,
+  payload: commitmentId,
+});
+
+export const removeCommitmentAsync = (commitmentId) => {
+  return async (dispatch) => {
+    const endpoint = '/commitments';
+    const method = 'DELETE';
+    const results = await generalDataFetch(endpoint, method, {id: commitmentId});
+    if (results.status !== 200) {
+      return dispatch(commitmentsError(results.jsonData.message))
+    }
+    return dispatch(removeCommitment(commitmentId));
+  }
+}
+
 export const addCommitment = (commitment) => ({
   type: CommitmentActionTypes.ADD_COMMITMENT,
   payload: commitment,

@@ -43,6 +43,11 @@ const commitmentsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         commitments: [...state.commitments, action.payload],
       }
+    case CommitmentActionTypes.REMOVE_COMMITMENT: 
+      return {
+        ...state,
+        commitments: state.commitments.filter((commitment) => commitment.id !== action.payload),
+      }
     default:
       return state;
   }
