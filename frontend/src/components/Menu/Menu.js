@@ -35,7 +35,7 @@ function Menu() {
         { 
         isAdmin ?
         (<div className="setting-btn btn">
-          <a href="/challenge-setting" >Settings</a>
+          <a href="/admin" >Settings</a>
         </div>) : 
         null
         }

@@ -54,16 +54,16 @@ function CreateChallenge() {
         <div className='create-challenge-container'>
           <div className='challenge-form'>
             <label htmlFor='form-input' className='form-label'>
-              Please give a title to your <span>Challenge</span>
+              <span>Challenge</span> title
             </label>
             <input
               type='text'
-              className='form-input'
+              className='form-input title'
               placeholder='My Life-Changing Challenge'
               onChange={(event) => setChallengeName(event.target.value)}
             />
             <label htmlFor='form-input' className='form-label'>
-              Please add a description to your <span>Challenge</span>
+              <span>Challenge</span> description
             </label>
             <textarea
               type='text'
@@ -74,7 +74,7 @@ function CreateChallenge() {
           </div>
           <div className='challenge-date'>
             <label htmlFor='date-picker' className='form-label'>
-              Please select the interval of the <span>Challenge</span>
+              <span>Challenge</span> intervall
             </label>
             <DatePicker
               minDate={new Date()}
@@ -88,7 +88,7 @@ function CreateChallenge() {
           </div>
           <div className='create-challenge-submit'>
             <button className='submit-challenge' onClick={submitChallenge}>
-              Start Your Challenge
+              Start Challenge
             </button>
           </div>
         </div>
