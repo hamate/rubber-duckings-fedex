@@ -1,0 +1,55 @@
+.dummy {
+  background-color: #474b4f;
+}
+
+.challenge-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  min-width: 1440px;
+}
+
+.challenge-container main {
+  margin: 20px;
+  min-width: 1270px;
+  display: flex;
+  margin: 0 auto;
+}
+
+nav {
+  width: 170px;
+  height: 100vh;
+}
+
+.menu {
+  width: 80px;
+  height: 100vh;
+  transition: width .5s;
+}
+
+.menu:hover {
+  width: 150px
+}
+
+.middle-content {
+  height: 100%;
+  width: 100%;
+}
+
+.counter {
+  height: 75px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.content-container {
+  width: 100%;
+  height: calc(100vh - 135px);
+}
+
+.message-board {
+  width: 250px;
+  height: calc(100vh - 40px);
+  margin-left: 20px;
+}

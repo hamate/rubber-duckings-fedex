@@ -5,13 +5,15 @@ import '../styles/Landing.css';
 
 function Landing() {
   const dispatch = useDispatch();
-  const challenge = useSelector((state) => state.challenge.challenge)
-  
+
   useEffect(() => {
     dispatch(getChallenge());
   }, [dispatch]);
 
+  const challenge = useSelector((state) => state.challenge.challenge)
+  
   let challengeStartTimestamp = new Date(challenge.startDate).getTime();
+  let challengeEndTimestamp = new Date(challenge.endDate).getTime();
   let currentTimestamp = Date.now();
 
   return(
@@ -26,19 +28,23 @@ function Landing() {
         <h1>ARE YOU READY FOR A <br /><span>CHALLENGE?!</span></h1>
 
         {
-        challengeStartTimestamp > currentTimestamp ?
+        currentTimestamp < challengeEndTimestamp ?
         <div>
           <div className="landing-details">
             <h2>{challenge.title}</h2>
             <p>{challenge.description}</p>
           </div>
+
           <div className="landing-user-btns">
             <div className="btn login-btn">
               <a href="/login">LOGIN</a>
             </div>
-            <div className="btn register-btn">
+
+            {currentTimestamp < challengeStartTimestamp ?
+             <div className="btn register-btn">
               <a href="/register">JOIN CHALLENGE</a>
             </div>
+            : null }
           </div>
         </div> 
         : 
