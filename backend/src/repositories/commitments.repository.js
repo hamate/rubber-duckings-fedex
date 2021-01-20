@@ -4,9 +4,11 @@ import { challengeRepo } from './challenge.repository';
 
 export const commitmentsRepo = {
   async getCommitments() {
-    const sqlQuery = 'SELECT * FROM commitments';
+    const challengeQuery = await challengeRepo.getChallenge();
+    const challengeId = challengeQuery.id;
+    const sqlQuery = 'SELECT * FROM commitments WHERE challenge_id = ?';
     try {
-      const queryData = await db.query(sqlQuery);
+      const queryData = await db.query(sqlQuery, challengeId);
       return queryData.results;
     } catch (err) {
       throw {
