@@ -1,63 +1,67 @@
-import React, { useLayoutEffect } from 'react';
-import { createDateArray, addDays } from '../../utilities/date.utils';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { createDateArray, addDays, getDateString, formatDateToString } from '../../utilities/date.utils';
+import Commitment from '../commitment/commitment.component';
+
+import { updateCommitmentAsync } from '../../redux/commitments/commitments.actions';
 
 import './commitment-group.styles.css';
 
 export default function CommitmentGroup(props) {
-  const { numOfDays, name, startDate } = props;
+  const dispatch = useDispatch();
+  const { numOfDays, name, startDate, commitments, endDate } = props;
   const blockArray = createDateArray(startDate, numOfDays);
   const containerStyle = {
     display: 'flex',
     flexDirection: 'column',
+    height: '100%',
+    backgroundColor: 'antiquewhite'
   }
 
   function allowDrop(ev) {
     ev.preventDefault();
   }
   
-  function drag(ev) {
-    ev.dataTransfer.setData("text/plain", ev.target.id);
-  }
-  
-  function drop(ev) {
+  const drop = (ev) => {
     ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
+    let commitmentId = ev.dataTransfer.getData("commitmentId");
+    let name = ev.dataTransfer.getData("name");
+    let numOfDays = ev.dataTransfer.getData("numofdays");
+    let containerName = ev.target.getAttribute('container-name');
+    let targetDate = ev.target.getAttribute('date');
+    if (name === containerName) {
+      if ((new Date(targetDate).getDate() + Number(numOfDays)) <= endDate.getDate()) {
+        ev.target.appendChild(document.getElementById(commitmentId));
+        const commitment = commitments.find((commitment) => commitment.id == commitmentId);
+        commitment.startDate = targetDate;
+        commitment.endDate = formatDateToString(addDays(new Date(targetDate), Number(numOfDays)));
+        dispatch(updateCommitmentAsync(commitment));
+      }
+    }
     
-    ev.target.appendChild(document.getElementById(data));
-    
-  }
+  };
 
-  useLayoutEffect(() => {
-    const div = document.querySelector(`[container-id="${name}1"]`);
-    console.log(div.getAttribute('date'));
-    const newDiv = document.createElement('div');
-    newDiv.style.height = '120px';
-    newDiv.style.backgroundColor = 'red';
-    newDiv.style.zIndex = 200;
-    newDiv.style.position = 'absolute';
-    newDiv.style.width = '100%'
-
-    div.appendChild(newDiv);
-  }, [])
   return (
     <div className="commitment-container" style={containerStyle}>
-      <h1 draggable={true} id="draggable" date={new Date()} onDragStart={drag}>{name} </h1>
+      <h4 style={{
+        backgroundColor: 'white',
+        color: 'black'
+      }} date={new Date()}>{name} </h4>
       {
         blockArray.map((date, index) => {
+          const commitment = commitments.filter((commitment) => formatDateToString(new Date(commitment.startDate)) === formatDateToString(date))[0];
           return (
             <div 
-              key={`${name}${index}`} container-id={`${name}${index}`} date={addDays(startDate, index)} className="calendar-block" 
-              style={ { 
-                color: 'black', 
-                maxHeight: '30px',
-                minHeight: '30px', 
-                margin: '0px',
-                overflowY: 'visible',
-                position: 'relative',
-              }}
+              key={`${name}-${index}`} 
+              container-name={`${name}`} 
+              date={`${formatDateToString(date)}`} 
+              className="calendar-block" 
               onDrop={drop}
               onDragOver={allowDrop}
               >
+              {
+                commitment ? <Commitment commitment={commitment} /> : null
+              }
             </div>)
         })
       }

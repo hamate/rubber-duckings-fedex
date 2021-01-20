@@ -27,6 +27,18 @@ const commitmentsReducer = (state = INITIAL_STATE, action) => {
         isLoadin: false,
         error: action.payload,
       }
+    case CommitmentActionTypes.UPDATE_COMMITMENT:
+      return {
+        ...state,
+        error: '',
+        commitments: state.commitments.map(commitment => {
+          if (commitment.id === action.payload.id) {
+            return action.payload;
+          }
+          return commitment;
+        })
+
+      }
     default:
       return state;
   }

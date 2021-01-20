@@ -75,8 +75,9 @@ export const commitmentsRepo = {
       name,
       isDone,
       id,
+      userId,
     } = commitment;
-    const sqlQuery = 'UPDATE commitments SET name = ?, start_date = ?, end_date = ?, is_done = ? WHERE id = ?';
+    const sqlQuery = 'UPDATE commitments SET name = ?, start_date = ?, end_date = ?, is_done = ? WHERE id = ? AND user_id = ?';
     try {
       return await db.query(sqlQuery, [
         name,
@@ -84,6 +85,7 @@ export const commitmentsRepo = {
         new Date(endDate).toISOString().slice(0, 19).replace('T', ' '),
         isDone,
         id,
+        userId,
       ]);
     } catch (err) {
       throw {
