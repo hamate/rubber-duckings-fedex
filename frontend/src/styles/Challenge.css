@@ -18,18 +18,9 @@
 }
 
 nav {
-  width: 170px;
+  width: 160px;
   height: 100vh;
-}
-
-.menu {
-  width: 80px;
-  height: 100vh;
-  transition: width .5s;
-}
-
-.menu:hover {
-  width: 150px
+  margin-right: 20px;
 }
 
 .middle-content {
@@ -46,6 +37,7 @@ nav {
 .content-container {
   width: 100%;
   height: calc(100vh - 135px);
+  overflow-y: scroll;
 }
 
 .message-board {

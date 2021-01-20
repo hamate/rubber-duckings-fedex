@@ -29,12 +29,19 @@ function AdminPage() {
     type: types.ERROR,
     transition: transitions.SCALE,
   };
+
+  let challengeEndTimestamp = new Date(challenge.endDate).getTime();
+  let currentTimestamp = Date.now();
   
   return (
     <div className='admin-main-container'>
+      <div className="btn admin-btn" >
+        <a href="/challenge" style={{color: 'white'}}>TO CHALLANGE PAGE</a>
+      </div>
       <AlertProvider template={AlertTemplate} {...options}>
-        {Object.entries(challenge).length > 1 ? <EditChallenge /> : <CreateChallenge />}
+        {currentTimestamp < challengeEndTimestamp ? <EditChallenge /> : <CreateChallenge />}
       </AlertProvider>
+      
     </div>
   );
 }

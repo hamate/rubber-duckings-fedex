@@ -6,14 +6,13 @@ import { sessionLoading, sessionSuccess, sessionFailed } from '../../redux/sessi
 import { setUser } from '../../redux/user/user.actions';
 import './SessionForm.css';
 
-function SessionForm({ formType, lo}) {
+function SessionForm({ formType }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const loginError = useSelector((state) => ( state.session.sessionError ));
   const challenge = useSelector((state) => ( state.challenge.challenge ));
   const history = useHistory();
-  const currentPath = history.location.pathname;
   const dispatch = useDispatch();
 
   const onUsernameChange = (event) => {
@@ -40,8 +39,8 @@ function SessionForm({ formType, lo}) {
   function determinePath(isAdmin) {
     let challengeEndTimestamp = new Date(challenge.endDate).getTime();
     if (challengeEndTimestamp < Date.now()) {
-      if (currentPath === '/login' && isAdmin === 1) {
-        return '/challenge-setting';
+      if (isAdmin === 1) {
+        return '/admin';
       }
       return '/';
     }
@@ -60,14 +59,12 @@ function SessionForm({ formType, lo}) {
 
     try {
       const loginResponse = await generalDataFetch(endpoint, method, loginData);
-      console.log(loginResponse);
 
       if (loginResponse.status !== 200) {
         return dispatch(sessionFailed(loginResponse.jsonData.message)) 
       } 
 
       const { token, userId, isAdmin, isValidated } = loginResponse.jsonData;
-      window.localStorage.token = token;
       setPassword('');
       setUsername('');
       
@@ -96,7 +93,6 @@ function SessionForm({ formType, lo}) {
         method,
         registData,
       );
-      console.log(registerResponse.status);
       if (registerResponse.status !== 200) {
         return dispatch(sessionFailed(registerResponse.jsonData.message)) 
       } 

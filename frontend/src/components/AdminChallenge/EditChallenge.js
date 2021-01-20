@@ -71,12 +71,12 @@ function EditChallenge() {
   return (
     <div className='create-challenge-main-container'>
       <h1 className='create-challenge-title'>
-        <span>Challenge</span> Creator Page
+        <span>Challenge</span> Editor Page
       </h1>
       <div className='create-challenge-container'>
         <div className='challenge-form'>
           <label htmlFor='form-input' className='form-label'>
-            Title of Your Current <span>Challenge</span>
+            <span>Challenge</span> Title
           </label>
           <textarea
             type='text'
@@ -87,7 +87,7 @@ function EditChallenge() {
             defaultValue={challenge.title}
           />
           <label htmlFor='form-input' className='form-label'>
-            Description of Your Current <span>Challenge</span>
+            <span>Challenge</span> Decription
           </label>
           <textarea
             disabled={!isUpdating}
@@ -99,7 +99,7 @@ function EditChallenge() {
         </div>
         <div className='challenge-date'>
           <label htmlFor='date-picker' className='form-label'>
-            Interval of Your Current <span>Challenge</span>
+            <span>Challenge</span> Interval
           </label>
           <div className='date-pickers'>
             <DatePicker
@@ -124,7 +124,7 @@ function EditChallenge() {
               className='submit-challenge'
               onClick={() => setIsUpdating(true)}
             >
-              Update Your Challenge
+              Update Challenge
             </button>
           ) : (
             <div className='updating-buttons'>
@@ -137,7 +137,7 @@ function EditChallenge() {
                 Cancel
               </button>
               <button className='submit-challenge' onClick={submitChallenge}>
-                Update Your Challenge
+                Update Challenge
               </button>
             </div>
           )}

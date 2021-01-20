@@ -13,3 +13,7 @@ export const sessionFailed = (message) => ({
   type: SessionActionTypes.SESSION_FAILED,
   message,
 });
+
+export const sessionLogout = () => ({
+  type: SessionActionTypes.SESSION_LOGOUT,
+});
