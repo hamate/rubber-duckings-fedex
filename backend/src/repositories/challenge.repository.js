@@ -23,13 +23,15 @@ export const challengeRepo = {
     } = challengeDetails;
     try {
       const sqlQuery = 'INSERT INTO challenge (title, description, start_date, end_date) VALUES(?, ?, ?, ?)';
-      const addChallengeQueryData = await db.query(sqlQuery, [
+      await db.query(sqlQuery, [
         challengeName,
         challengeDescription,
         startDate,
         endDate,
       ]);
-      return addChallengeQueryData.results[0];
+      const responseSqlQuery = 'SELECT * FROM challenge ORDER BY id DESC LIMIT 1';
+      const challengeQueryData = await db.query(responseSqlQuery);
+      return challengeQueryData.results[0];
     } catch (err) {
       throw {
         status: 500,

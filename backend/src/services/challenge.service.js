@@ -19,6 +19,6 @@ export const challengeService = {
   },
 
   async postChallenge(challengeDetails) {
-    await challengeRepo.postChallenge(challengeDetails);
+    return await challengeRepo.postChallenge(challengeDetails);
   },
 };

@@ -39,8 +39,12 @@ function App() {
         <Route exact path="/register" />
         <Route exact path="/login" />
         <Route exact path="/admin" component={AdminPage}/>
+<<<<<<< HEAD
         <Route path="/challange" />
 >>>>>>> b1a52b8... challenge page design
+=======
+        <Route path="/challenge" />
+>>>>>>> 20fa087... fetch working
         <Route exact path="/">
             {tokenExists() ? <Redirect to="/challenge" /> : <Redirect to="/" />}
         </Route>
