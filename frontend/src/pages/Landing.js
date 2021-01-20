@@ -1,15 +1,8 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getChallenge } from '../redux/challenge/challenge.action';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import '../styles/Landing.css';
 
 function Landing() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getChallenge());
-  }, [dispatch]);
-
   const challenge = useSelector((state) => state.challenge.challenge)
   
   let challengeStartTimestamp = new Date(challenge.startDate).getTime();

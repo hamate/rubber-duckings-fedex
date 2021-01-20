@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as 
   Router,
@@ -6,15 +6,21 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Challenge from './pages/Challenge';
 import AdminPage from './pages/AdminPage';
 import './App.css';
+import { getChallenge } from './redux/challenge/challenge.action';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getChallenge());
+  }, [dispatch]);
  
   const token = useSelector(state => state.session.token);
   return (

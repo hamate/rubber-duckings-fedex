@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Menu from '../components/Menu/Menu';
+import Counter from '../components/Counter/Counter';
 import { fetchCommitmentsAsync } from '../redux/commitments/commitments.actions';
 import ChallengeOverview from '../components/challenge-overview/challenge-overview.component';
 import '../styles/Challenge.css';
@@ -21,8 +22,8 @@ function Challenge() {
 
       <main>
         <div className="middle-content">
-          <div className="counter dummy" />
-          <div className="content-container dummy" >
+          <Counter />
+          <div className="content-container" >
             <Switch>
               <Route exact path="/challenge/commitments" />
               <Route exact path={["/challenge", "/challenge/overview"]} component={ChallengeOverview} />
