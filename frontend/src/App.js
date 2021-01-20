@@ -28,8 +28,7 @@ function App() {
         <Route exact path="/" component={Landing} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/admin" component={Login} />
-        <Route exact path="/admin/challenge" />
+        <Route exact path="/challenge-setting" />
         <Route path="/challenge" component={Challenge} />
         <Route exact path="/">
             {tokenExists() ? <Redirect to="/challenge" /> : <Redirect to="/" />}

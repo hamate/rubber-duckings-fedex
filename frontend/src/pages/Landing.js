@@ -20,7 +20,7 @@ function Landing() {
     <div className="landing-container">
 
       <div className="btn landing-admin-btn">
-        <a href="/admin">ADMIN LOGIN</a>
+        <a href="/login">ADMIN LOGIN</a>
       </div>
 
       <div className="landing-main-text">
