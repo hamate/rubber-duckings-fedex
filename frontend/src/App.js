@@ -12,7 +12,6 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Challenge from './pages/Challenge';
 import AdminPage from './pages/AdminPage';
-import Main from './pages/Main';
 import './App.css';
 
 function App() {
@@ -27,11 +26,8 @@ function App() {
         </Route>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/challenge-setting" />
         <Route path="/challenge" component={Challenge} />
         <Route exact path="/admin" component={AdminPage}/>
-        <Route exact path="/admin/challenge" />
-        <Route path="/challenge" component={Main} />
       </Switch>
     </div>
     </Router>
