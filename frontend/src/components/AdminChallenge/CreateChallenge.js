@@ -4,9 +4,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function CreateChallenge() {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const onChange = (dates) => {
+  const DatePickerOnChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
@@ -33,8 +33,9 @@ function CreateChallenge() {
             Please select the interval of the <span>Challenge</span>
           </label>
           <DatePicker
+            minDate={new Date()}
             selected={startDate}
-            onChange={onChange}
+            onChange={DatePickerOnChange}
             startDate={startDate}
             endDate={endDate}
             selectsRange

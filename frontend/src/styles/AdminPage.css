@@ -38,6 +38,9 @@ span {
   height: 40px;
   font-size: 1em;
   margin-bottom: 40px;
+  outline: none;
+  border-radius: 5px;
+  border: none;
 }
 
 .react-datepicker {
