@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import sessionTypes from './session/session.types';
 
 import sessionReducer from './session/session.reducer';
 import challengeReducer from './challenge/challenge.reducer';
@@ -13,12 +14,21 @@ const persistConfig = {
   whitelist: ['session', 'user', 'challenge']
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   session: sessionReducer,
   challenge: challengeReducer,
   commitments: commitmentsReducer,
   user: userReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === sessionTypes.SESSION_LOGOUT ) {
+    window.localStorage.removeItem('persist:root')
+    window.localStorage.removeItem('persist:rootReducer')
+    state = undefined;
+}
+return appReducer(state, action);
+}
 
 
 export default persistReducer(persistConfig, rootReducer)
