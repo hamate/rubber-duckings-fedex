@@ -1,9 +1,6 @@
 .challenge-overview {
-  margin-top: 150px;
   display: flex;
   flex-direction: row;
-  height: 400px;
-  overflow-y: scroll;
 }
 
 .challenge-days {

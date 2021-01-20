@@ -25,7 +25,7 @@ function Challenge() {
           <div className="content-container dummy" >
             <Switch>
               <Route exact path="/challenge/commitments" />
-              <Route exact path="/challenge/overview" component={ChallengeOverview} />
+              <Route exact path={["/challenge", "/challenge/overview"]} component={ChallengeOverview} />
               <Route exact path="/challenge/statistics" />
             </Switch>
           </div>

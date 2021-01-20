@@ -4,6 +4,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-image: url(../assets/accepted-logo-grey.svg);
+  background-repeat: no-repeat;
+  background-size: 80%;
+  background-position: left -40px bottom -15px;
 }
 
 .landing-main-text {
