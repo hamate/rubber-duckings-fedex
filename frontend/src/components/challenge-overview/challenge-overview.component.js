@@ -1,10 +1,16 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getMonthAndDayString,  createDateArray, getNumOfDays } from '../../utilities/date.utils';
 import CommitmentGroup from '../commitment-group/commitment-group.component';
+import AddCommitment from '../add-commitment/add-commitment.component';
+
+import { toggleCreateCommitmentForm } from '../../redux/commitment-form/commitment-form.actions';
 import './challenge-overview.styles.css';
 
 export default function ChallengeOverview() {
+  const dispatch = useDispatch();
+  const createFormOpenStatus = useSelector(state => state.commitmentForm.createCommitmentForm);
+  console.log(createFormOpenStatus);
   const { challenge } = useSelector(state => state.challenge);
   const { userId } = useSelector(state => state.user);
   const userCommitments = useSelector(state => {
@@ -30,6 +36,10 @@ export default function ChallengeOverview() {
 
   return (
     <div className="challenge-overview">
+      <button className="toggle-create-form-button" type="button" onClick={() => {dispatch(toggleCreateCommitmentForm())}}>Create new commitment</button>
+      {
+        createFormOpenStatus ? (<AddCommitment startDate={startDate} endDate={endDate} commitments={userCommitments} />) : null
+      }
       <div style={containerStyle} className="challenge-days">
         <h4 style={{ color: 'black'}}>Date</h4>
         {

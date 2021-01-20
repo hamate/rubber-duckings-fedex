@@ -37,7 +37,11 @@ const commitmentsReducer = (state = INITIAL_STATE, action) => {
           }
           return commitment;
         })
-
+      }
+    case CommitmentActionTypes.ADD_COMMITMENT:
+      return {
+        ...state,
+        commitments: [...state.commitments, action.payload],
       }
     default:
       return state;

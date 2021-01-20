@@ -1,10 +1,25 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { getNumOfDays, formatDateToString } from '../../utilities/date.utils';
+import { updateCommitmentAsync } from '../../redux/commitments/commitments.actions';
+import './commitment.styles.css';
 
 export default function Commitment({ commitment }) {
-  const { startDate, endDate, name, id } = commitment;
+  const { startDate, endDate, name, id, isDone } = commitment;
+  const dispatch = useDispatch();
   const startDateString = formatDateToString(new Date(startDate));
+  const endDateString = formatDateToString(new Date(endDate));
   const numOfDays = getNumOfDays(new Date(startDate), new Date(endDate));
+
+  function toggleIsDone(e) {
+    dispatch(updateCommitmentAsync({
+      startDate: startDateString,
+      endDate: endDateString,
+      name,
+      id,
+      isDone: !isDone,
+    }));
+  }
 
   function drag(ev) {
     const name = ev.target.getAttribute('name');
@@ -35,7 +50,7 @@ export default function Commitment({ commitment }) {
 
   const style = {
     height: `${30*numOfDays}px`,
-    backgroundColor:'red',
+    backgroundColor: isDone ? 'green' : 'red',
     zIndex: '200',
     position: 'absolute',
     width:'98%',
@@ -55,6 +70,7 @@ export default function Commitment({ commitment }) {
         numofdays={`${numOfDays}`}
         >
         {name}
+        <i onClick={toggleIsDone} className={isDone ? "fas fa-check-square" : "far fa-square"}></i>
       </div>
     </div>
   )
