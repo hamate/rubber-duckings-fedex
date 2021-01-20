@@ -1,9 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import CreateChallenge from '../components/AdminChallenge/CreateChallenge';
 import EditChallenge from '../components/AdminChallenge/EditChallenge';
+import { getChallenge } from '../redux/challenge/challenge.action';
 import '../styles/AdminPage.css';
-import { render } from 'react-dom';
 import {
   transitions,
   types,
@@ -13,7 +13,13 @@ import {
 import AlertTemplate from 'react-alert-template-basic';
 
 function AdminPage() {
-  const challenge = useSelector((state) => state.challenge.challenge);
+  const dispatch = useDispatch();
+  const challenge = useSelector((state) => state.challenge.challenge)
+  
+  useEffect(() => {
+    dispatch(getChallenge());
+  }, []);
+
   const options = {
     // you can also just use 'bottom center'
     position: positions.BOTTOM_CENTER,
@@ -23,11 +29,11 @@ function AdminPage() {
     type: types.ERROR,
     transition: transitions.SCALE,
   };
+  console.log(Object.entries(challenge));
   return (
     <div className='admin-main-container'>
-      {/* {challenge ? <EditChallenge /> : <CreateChallenge />} */}
       <AlertProvider template={AlertTemplate} {...options}>
-        <CreateChallenge />
+        {Object.entries(challenge).length > 0 ? <EditChallenge /> : <CreateChallenge />}
       </AlertProvider>
     </div>
   );

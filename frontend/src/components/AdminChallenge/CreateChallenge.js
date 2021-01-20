@@ -4,6 +4,7 @@ import { useAlert } from 'react-alert';
 import 'react-datepicker/dist/react-datepicker.css';
 import generalDataFetch from '../../utilities/generalFetch';
 import moment from 'moment';
+import { useHistory } from "react-router-dom";
 
 function CreateChallenge() {
   const [startDate, setStartDate] = useState(null);
@@ -17,6 +18,7 @@ function CreateChallenge() {
   };
 
   const alert = useAlert();
+  const history = useHistory();
   moment().format();
 
   const submitChallenge = async () => {
@@ -36,7 +38,8 @@ function CreateChallenge() {
         throw Error('Missing data');
       }
       
-      const result = await generalDataFetch(endpoint, method, data);
+      await generalDataFetch(endpoint, method, data);
+      history.push('/admin');
     } catch (error) {
       console.log(error);
     }
