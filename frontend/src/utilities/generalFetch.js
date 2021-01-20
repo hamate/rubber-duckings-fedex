@@ -5,7 +5,7 @@ const generalDataFetch = async (endpoint, method, data = undefined) => {
   const options = {
     method,
     headers: {
-      Accept: 'application/json',
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
   };

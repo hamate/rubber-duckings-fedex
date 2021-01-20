@@ -17,4 +17,12 @@ export const challengeService = {
       endDate: challenge.end_date,
     };
   },
+
+  async postChallenge(challengeDetails) {
+    return await challengeRepo.postChallenge(challengeDetails);
+  },
+
+  async putChallenge(challengeDetails) {
+    return await challengeRepo.putChallenge(challengeDetails);
+  },
 };

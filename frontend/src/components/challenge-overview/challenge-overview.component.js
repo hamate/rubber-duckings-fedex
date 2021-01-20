@@ -1,32 +1,47 @@
 import React from 'react';
-import { addDays, getMonthAndDayString, getNumOfDays, createDateArray } from '../../utils/date.utils';
+import { useSelector } from 'react-redux';
+import { getMonthAndDayString,  createDateArray, getNumOfDays } from '../../utilities/date.utils';
+import CommitmentGroup from '../commitment-group/commitment-group.component';
 import './challenge-overview.styles.css';
 
-export default function ChallengeOverview({ numOfDays, startDate }) {
-  console.log(startDate);
+export default function ChallengeOverview() {
+  const { challenge } = useSelector(state => state.challenge);
+  const { userId } = useSelector(state => state.user);
+  const userCommitments = useSelector(state => {
+    const userCommitments = state.commitments.commitments.filter((commitment) => commitment.userId === userId);
+    return userCommitments;
+  });
+  const startDate = new Date(challenge.startDate);
+  const endDate = new Date(challenge.endDate);
+  const numOfDays = getNumOfDays(startDate, endDate);
+  const commitmentGroups = userCommitments.reduce((acc, commitment) => {
+      if (!acc.includes(commitment.name)) {
+        acc.push(commitment.name);
+      }
+      return acc
+    }, []);
   const containerStyle = {
-    display: 'grid',
-    gridTemplateRows: `repeat(${numOfDays}, 30px)`,
-    gridGap: '5px'
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: 'white',
   }
 
   const dateArray = createDateArray(startDate, numOfDays);
 
   return (
     <div className="challenge-overview">
-    <button>Add commitment</button>
       <div style={containerStyle} className="challenge-days">
+        <h4 style={{ color: 'black'}}>Date</h4>
         {
           dateArray.map((date, index) => {
             return (
               <div 
-                key={index} className="" 
+                key={`day-${index}`} className="" 
                 style={ { 
-                  color: 'white', 
-                  gridRow: index, 
-                  lineHeight: '30px', 
+                  color: 'black',  
                   margin: '0px',
-                  backgroundColor: 'black',
+                  maxHeight: '30px',
+                  minHeight: '30px',
                 }}>
                   { getMonthAndDayString(date) }
               </div>)
@@ -35,6 +50,12 @@ export default function ChallengeOverview({ numOfDays, startDate }) {
       </div>
       <div className="commitments-container">
 
+      {
+        commitmentGroups.map((group) => {
+          const commitments = userCommitments.filter((commitment) => commitment.name === group)
+          return <CommitmentGroup name={group} startDate={ startDate } endDate={endDate} numOfDays={ numOfDays } commitments={commitments} />
+        })
+      }
       </div>
     </div>
   )

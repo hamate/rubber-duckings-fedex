@@ -1,7 +1,7 @@
 import CommitmentActionTypes from './commitments.types';
 
 const INITIAL_STATE = {
-  commitments: [],
+  commitments: [{name: 'test and test'},{name: 'test2'},{name: 'test3'},{name: 'test4'}],
   error: '',
   isLoading: false,
 };
@@ -26,6 +26,18 @@ const commitmentsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isLoadin: false,
         error: action.payload,
+      }
+    case CommitmentActionTypes.UPDATE_COMMITMENT:
+      return {
+        ...state,
+        error: '',
+        commitments: state.commitments.map(commitment => {
+          if (commitment.id === action.payload.id) {
+            return action.payload;
+          }
+          return commitment;
+        })
+
       }
     default:
       return state;
