@@ -1,0 +1,10 @@
+.create-challenge-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.admin-main-container {
+  display: flex;
+  justify-content: center;
+}

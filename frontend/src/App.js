@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Challenge from './pages/Challenge';
 import './App.css';
+import AdminPage from './components/AdminPage/AdminPage';
 
 function App() {
   const tokenExists = () => {
